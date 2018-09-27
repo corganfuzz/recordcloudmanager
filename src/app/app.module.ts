@@ -26,6 +26,7 @@ import { HistogramerComponent } from './histogramer/histogramer.component';
 import { TextvisualizerComponent } from './textvisualizer/textvisualizer.component';
 import { NewfolderComponent } from './modals/newfolder/newfolder.component';
 import { RenameComponent } from './modals/rename/rename.component';
+import { ChartModule } from 'angular2-chartjs';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { RenameComponent } from './modals/rename/rename.component';
     MatButtonModule,
     MatGridListModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ChartModule
   ],
   providers: [
     FileService,

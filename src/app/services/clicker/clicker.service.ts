@@ -9,18 +9,18 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 export class ClickerService {
 
-  myMethod: Observable<any>;
+  myClicker: Observable<any>;
 
-  private myMethodSubject = new BehaviorSubject<any[]>([]);
+  private myClickerSubject = new BehaviorSubject<any[]>([]);
 
 
   constructor() {
-    this.myMethod = this.myMethodSubject.asObservable();
+    this.myClicker = this.myClickerSubject.asObservable();
    }
 
    clickerSender (data) {
     // console.log('clicker', data);
-    this.myMethodSubject.next(data);
+    this.myClickerSubject.next(data);
    }
 
 

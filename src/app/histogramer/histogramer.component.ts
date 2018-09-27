@@ -3,6 +3,7 @@ import * as Chart from 'chart.js';
 import { ClickerService } from '../services/clicker/clicker.service';
 import { AppComponent } from '../app.component';
 
+
 @Component({
   selector: 'app-histogramer',
   templateUrl: './histogramer.component.html',
@@ -15,6 +16,21 @@ export class HistogramerComponent implements AfterViewInit, OnDestroy {
   context: any;
   initialChartValue: any;
   histogramChart: Chart;
+
+  type = 'bar';
+  dataext = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [
+      {
+        label: 'My First dataset',
+        data: [65, 59, 80, 81, 56, 55, 40]
+      }
+    ]
+  };
+  options = {
+    responsive: true,
+    maintainAspectRatio: false
+  };
 
   constructor(private clickerService: ClickerService,
     private appComp: AppComponent) {
@@ -29,7 +45,7 @@ export class HistogramerComponent implements AfterViewInit, OnDestroy {
   }
 
   setupChartConfig () {
-    this.clickerService.myMethod.subscribe(response => {
+    this.clickerService.myClicker.subscribe(response => {
     this.canvas = document.getElementById('histogramChart');
 
     if (this.canvas !== null) {

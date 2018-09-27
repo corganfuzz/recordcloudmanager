@@ -16,11 +16,4 @@ export class ReaderService {
     const getter = this.http.get(this.azureURL, { responseType: 'text' });
     return getter;
   }
-
-  getZipFile(url, type) {
-    url = this.azureURL;
-    const getZip = this.http.get(url, {responseType: 'arraybuffer'});
-    return getZip;
-  }
-
 }
