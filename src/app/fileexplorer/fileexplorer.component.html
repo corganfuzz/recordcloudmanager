@@ -1,0 +1,63 @@
+<mat-card class="windowSize">
+  <mat-toolbar>
+      <mat-icon *ngIf="canNavigateUp" class="pointer" (click)="navigateUp()">arrow_back</mat-icon>
+      <span class="titleMargin">{{path || 'Files'}}</span>
+      <span class="spacer"></span>
+      <mat-icon class="pointer" (click)="openFolderModal()">create_new_folder</mat-icon>
+      <span class="titleRight">Click on the icons to see its contents</span>
+  </mat-toolbar>
+
+
+    <mat-grid-list cols="8" rowHeight="100px" fxFlex>
+      <mat-grid-tile *ngFor="let element of fileElements" class=file-or-folder>
+        <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: element}" #menuTrigger="matMenuTrigger"></span>
+
+        <div (click)="navigate(element)" (contextmenu)="openMenu($event, menuTrigger)">
+
+          <mat-icon color="primary" class="file-or-folder-icon pointer"
+          *ngIf="element.isFolder">folder</mat-icon>
+
+          <mat-icon color="primary" class="file-or-folder-icon pointer"
+          *ngIf="!element.isFolder">insert_drive_file</mat-icon>
+
+          <span class="row">{{element.Name}}</span>
+        </div>
+
+      </mat-grid-tile>
+    </mat-grid-list>
+
+
+<mat-menu #rootMenu="matMenu" [overlapTrigger]="false">
+  <ng-template matMenuContent let-element="element">
+    <button mat-menu-item [matMenuTriggerFor]="moveToMenu" [matMenuTriggerData]="{self: element}">
+      <mat-icon>open_with</mat-icon>
+      <span>Move To</span>
+    </button>
+    <button mat-menu-item (click)="openRenameModal(element)">
+      <mat-icon>edit</mat-icon>
+      <span>Rename</span>
+    </button>
+    <button mat-menu-item (click)="deleteElement(element)">
+      <mat-icon>delete</mat-icon>
+      <span>Delete</span>
+    </button>
+  </ng-template>
+</mat-menu>
+
+<mat-menu #moveToMenu="matMenu">
+  <ng-template matMenuContent let-self="self">
+    <ng-container *ngFor="let element of fileElements">
+      <button *ngIf="element.isFolder && element.id !== self.id"
+              mat-menu-item (click)="moveElement(self, element)">{{element.Name}}
+      </button>
+    </ng-container>
+  </ng-template>
+</mat-menu>
+
+
+
+
+
+</mat-card>
+
+
