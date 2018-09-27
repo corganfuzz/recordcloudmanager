@@ -20,7 +20,7 @@ export class ClickerService {
    }
 
    clickerSender (data) {
-    console.log('clicker', data);
+    // console.log('clicker', data);
     this.myClickerSubject.next(data);
    }
 

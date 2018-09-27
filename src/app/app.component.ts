@@ -94,22 +94,55 @@ export class AppComponent implements OnInit {
 
 
     function compressArray(original) {
-      return original
-      .reduce((countsMap, item) => countsMap
-      .set(item, countsMap
-      .get(item) + 1 || 1), new Map());
-
+      const reduceOriginal = original.reduce((countsMap, item) => {
+        countsMap[item] = (countsMap[item] || 0) + 1;
+        return countsMap;
+      }
+      , {} );
+      return reduceOriginal;
   }
 
     const results = compressArray(arrayOfWords);
 
-    // console.log('all', results);
+    console.log('all', results);
 
     // const one = Array.from(results.keys());
     // const two = Array.from(results.values());
+    const lessthan5 = Object.entries(results).filter(([key, val]) => {
+        return val >= 5;
+    });
+
+    const keysAndVals = lessthan5.reduce(([keys, values], [key, val]) => {
+        return [[...keys, key], [...values, val]];
+    }, [[], []]);
+
+    const words = keysAndVals[0];
+    const freqs = keysAndVals[1];
+
+    console.log(words);
+    console.log(freqs);
+    console.log(lessthan5);
+
+    // const destruct = lessthan5.map(e => {
+    //     return;
+    // });
+
+  //   const c = results.reduce((obj, key) => {
+  //     return obj + key;
+  // }, 0);
+
+    //       if (results.hasOwnProperty(key)) {
+    //         obj[key] = results[key];
+    //       }
+    //       return obj;
+    // }, {});
+
+    // console.log('c', c);
 
     // console.log(one);
-    // console.log(two.filter( x => x >= 5));
+    // console.log(two);
+    // console.log(lessthan5);
+
     this.clickerService.clickerSender(this.wordCount);
   }
 
