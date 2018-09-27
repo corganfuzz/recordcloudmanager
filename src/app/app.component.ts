@@ -5,7 +5,6 @@ import { FileService } from './services/file/file.service';
 import { ReaderService } from './services/reader/reader.service';
 import { ClickerService } from './services/clicker/clicker.service';
 import { NgxXml2jsonService } from 'ngx-xml2json';
-import { HttpClient } from '@angular/common/http';
 import * as JSZip from 'jszip';
 
 @Component({
@@ -21,7 +20,6 @@ export class AppComponent implements OnInit {
               private readerService: ReaderService,
               private ngxXml2jsonService: NgxXml2jsonService,
               private clickerService: ClickerService,
-              private http: HttpClient
               ) {}
 
   currentRoot: FileElement;
@@ -71,7 +69,7 @@ export class AppComponent implements OnInit {
     const fileType = Azurelink.type;
 
       if (fileType === 'application/zip') {
-        this.http.get(cloudUrl, { responseType: 'blob' }).subscribe(blobResponse => {
+        this.clickerService.getBlobZip(cloudUrl).subscribe(blobResponse => {
           const jszip = new JSZip();
           return jszip.loadAsync(blobResponse).then((zip) => {
             const extractedfile = Object.keys(zip.files);
@@ -82,7 +80,7 @@ export class AppComponent implements OnInit {
       });
 
       } else {
-        this.http.get(cloudUrl, { responseType: 'text' }).subscribe(textResponse => {
+        this.clickerService.getBlobText(cloudUrl).subscribe(textResponse => {
           this.wordCountSender(textResponse);
       });
 
