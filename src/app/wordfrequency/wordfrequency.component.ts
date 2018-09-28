@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import * as Chart from 'chart.js';
 import { ClickerService } from '../services/clicker/clicker.service';
-
+import { COLORS_BARS} from '../constants/colors';
 @Component({
   selector: 'app-wordfrequency',
   templateUrl: './wordfrequency.component.html',
@@ -10,7 +10,6 @@ import { ClickerService } from '../services/clicker/clicker.service';
 export class WordfrequencyComponent implements AfterViewInit, OnDestroy {
 
   constructor(private clickerService: ClickerService) { }
-
 
   canvas: any;
   context: any;
@@ -28,10 +27,11 @@ export class WordfrequencyComponent implements AfterViewInit, OnDestroy {
   }
 
   setupChartConfig () {
+    this.clickerService.myClicker.subscribe(response => {
     this.clickerService.freqClicker.subscribe(data => {
-      console.log(data);
-      this.labelData = data[0];
-      this.datasetData = data[1];
+       const totalWords = response;
+       const labelData = data[0];
+       const datasetData = data[1];
       this.canvas = document.getElementById('secondHistogram');
 
       if (this.canvas !== null) {
@@ -45,14 +45,12 @@ export class WordfrequencyComponent implements AfterViewInit, OnDestroy {
       this.secondHistogram = new Chart(this.context, {
         type: 'bar',
         data: {
-            labels: data[0],
+            labels: labelData,
             datasets: [{
-                label: ['Word Count'],
-                data: data[1],
-                // backgroundColor: [
-                //     'red',
-                // ],
-                borderWidth: 1
+                data: datasetData,
+                backgroundColor: COLORS_BARS,
+                borderWidth: 1,
+                fontColor: '#FFF',
             }]
         },
         options: {
@@ -64,9 +62,12 @@ export class WordfrequencyComponent implements AfterViewInit, OnDestroy {
           },
           scales: {
             xAxes: [{
+              ticks: {
+                fontColor: '#FFF'
+              },
             scaleLabel: {
               display: true,
-              labelString: 'Nope',
+              labelString: 'Total Words: ' + totalWords,
               fontColor: '#FFF',
             },
             gridLines: {
@@ -84,13 +85,14 @@ export class WordfrequencyComponent implements AfterViewInit, OnDestroy {
                     },
                 },
                 gridLines: {
-                  color: '#848080',
+                  color: '#red',
                 },
             }],
         },
           responsive: true,
         }
       });
+    });
     });
   }
 

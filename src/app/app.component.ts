@@ -118,11 +118,13 @@ export class AppComponent implements OnInit {
     const words = keysAndVals[0];
     const freqs = keysAndVals[1];
 
+    console.log(words);
+    console.log(freqs);
+
     this.clickerService.frequencySender(keysAndVals);
     // this.clickerService.frequencySender(freqs);
 
-    // console.log(words);
-    // console.log(freqs);
+
   }
 
   wordCountSender (value) {
