@@ -1,8 +1,6 @@
 import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import * as Chart from 'chart.js';
 import { ClickerService } from '../services/clicker/clicker.service';
-import { AppComponent } from '../app.component';
-
 
 @Component({
   selector: 'app-histogramer',
@@ -17,23 +15,7 @@ export class HistogramerComponent implements AfterViewInit, OnDestroy {
   initialChartValue: any;
   histogramChart: Chart;
 
-  type = 'bar';
-  dataext = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [
-      {
-        label: 'My First dataset',
-        data: [65, 59, 80, 81, 56, 55, 40]
-      }
-    ]
-  };
-  options = {
-    responsive: true,
-    maintainAspectRatio: false
-  };
-
-  constructor(private clickerService: ClickerService,
-    private appComp: AppComponent) {
+  constructor(private clickerService: ClickerService) {
    }
 
   ngAfterViewInit () {

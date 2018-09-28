@@ -1,20 +1,14 @@
 <mat-toolbar>
   <span>Histogram</span>
   <span class="spacer"></span>
-  <!-- <mat-icon class="pointer">create_new_folder</mat-icon> -->
 </mat-toolbar>
+
 <mat-card class="cardie">
+  <app-wordfrequency></app-wordfrequency>
+  <br/>
   <div class="chart">
     <canvas id="histogramChart"></canvas>
   </div>
-
-  <br/>
-
-  <chart [type]="type"
-         [data]="dataext"
-         [options]="options">
-  </chart>
-
 </mat-card>
 
 

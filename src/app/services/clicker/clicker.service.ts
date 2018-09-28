@@ -11,17 +11,25 @@ import { HttpClient } from '@angular/common/http';
 export class ClickerService {
 
   myClicker: Observable<any>;
+  freqClicker: Observable<any>;
+
 
   private myClickerSubject = new BehaviorSubject<any[]>([]);
+  private freqClickerSubject = new BehaviorSubject<any[]>([]);
 
 
   constructor(private http: HttpClient) {
     this.myClicker = this.myClickerSubject.asObservable();
+    this.freqClicker = this.freqClickerSubject.asObservable();
    }
 
    clickerSender (data) {
     // console.log('clicker', data);
     this.myClickerSubject.next(data);
+   }
+
+   frequencySender (data) {
+    this.freqClickerSubject.next(data);
    }
 
    getBlobText (cloudUrl) {

@@ -26,7 +26,7 @@ import { HistogramerComponent } from './histogramer/histogramer.component';
 import { TextvisualizerComponent } from './textvisualizer/textvisualizer.component';
 import { NewfolderComponent } from './modals/newfolder/newfolder.component';
 import { RenameComponent } from './modals/rename/rename.component';
-import { ChartModule } from 'angular2-chartjs';
+import { WordfrequencyComponent } from './wordfrequency/wordfrequency.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,8 @@ import { ChartModule } from 'angular2-chartjs';
     HistogramerComponent,
     TextvisualizerComponent,
     NewfolderComponent,
-    RenameComponent
+    RenameComponent,
+    WordfrequencyComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +52,6 @@ import { ChartModule } from 'angular2-chartjs';
     MatGridListModule,
     FormsModule,
     HttpClientModule,
-    ChartModule
   ],
   providers: [
     FileService,

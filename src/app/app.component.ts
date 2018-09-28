@@ -75,6 +75,7 @@ export class AppComponent implements OnInit {
             const extractedfile = Object.keys(zip.files);
             jszip.file(extractedfile).async('string').then(unzipText => {
                 this.wordCountSender(unzipText);
+                this.frequencyCountSender(unzipText);
             });
         });
       });
@@ -82,16 +83,16 @@ export class AppComponent implements OnInit {
       } else {
         this.clickerService.getBlobText(cloudUrl).subscribe(textResponse => {
           this.wordCountSender(textResponse);
+          this.frequencyCountSender(textResponse);
+
       });
 
       }
   }
 
-  wordCountSender (value) {
+  frequencyCountSender (value) {
     this.decodedText = value;
-    this.wordCount = this.decodedText.split(' ').length;
     const arrayOfWords = this.decodedText.split(' ');
-
 
     function compressArray(original) {
       const reduceOriginal = original.reduce((countsMap, item) => {
@@ -104,10 +105,8 @@ export class AppComponent implements OnInit {
 
     const results = compressArray(arrayOfWords);
 
-    console.log('all', results);
+    // console.log('all', results);
 
-    // const one = Array.from(results.keys());
-    // const two = Array.from(results.values());
     const lessthan5 = Object.entries(results).filter(([key, val]) => {
         return val >= 5;
     });
@@ -119,29 +118,18 @@ export class AppComponent implements OnInit {
     const words = keysAndVals[0];
     const freqs = keysAndVals[1];
 
-    console.log(words);
-    console.log(freqs);
-    console.log(lessthan5);
+    this.clickerService.frequencySender(keysAndVals);
+    // this.clickerService.frequencySender(freqs);
 
-    // const destruct = lessthan5.map(e => {
-    //     return;
-    // });
+    // console.log(words);
+    // console.log(freqs);
+  }
 
-  //   const c = results.reduce((obj, key) => {
-  //     return obj + key;
-  // }, 0);
+  wordCountSender (value) {
 
-    //       if (results.hasOwnProperty(key)) {
-    //         obj[key] = results[key];
-    //       }
-    //       return obj;
-    // }, {});
-
-    // console.log('c', c);
-
-    // console.log(one);
-    // console.log(two);
-    // console.log(lessthan5);
+    this.decodedText = value;
+    this.wordCount = this.decodedText.split(' ').length;
+    const arrayOfWords = this.decodedText.split(' ');
 
     this.clickerService.clickerSender(this.wordCount);
   }
