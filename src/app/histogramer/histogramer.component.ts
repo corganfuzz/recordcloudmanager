@@ -39,7 +39,7 @@ export class HistogramerComponent implements AfterViewInit, OnDestroy {
     }
 
     this.histogramChart = new Chart(this.context, {
-      type: 'bar',
+      type: 'pie',
       data: {
           datasets: [{
               label: ['Word Count'],
