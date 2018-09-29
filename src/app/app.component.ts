@@ -10,17 +10,17 @@ import * as JSZip from 'jszip';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-
   public fileElements: Observable<FileElement[]>;
 
-  constructor(private fileService: FileService,
-              private readerService: ReaderService,
-              private ngxXml2jsonService: NgxXml2jsonService,
-              private clickerService: ClickerService,
-              ) {}
+  constructor(
+    private fileService: FileService,
+    private readerService: ReaderService,
+    private ngxXml2jsonService: NgxXml2jsonService,
+    private clickerService: ClickerService,
+  ) {}
 
   currentRoot: FileElement;
   currentPath: string;
@@ -30,13 +30,16 @@ export class AppComponent implements OnInit {
   wordCount: any;
 
   ngOnInit() {
-
     this.getAzureFiles();
-    const folderA = this.fileService.add({ Name: 'Folder A', isFolder: true, parent: 'root' });
+    const folderA = this.fileService.add({
+      Name: 'Folder A',
+      isFolder: true,
+      parent: 'root',
+    });
     this.updateFileQuery();
   }
 
-  getAzureFiles () {
+  getAzureFiles() {
     this.readerService.getTextFile().subscribe((data: string) => {
       const parser = new DOMParser();
       const xml = parser.parseFromString(data, 'text/xml');
@@ -48,12 +51,12 @@ export class AppComponent implements OnInit {
           folder: false,
           parent: 'root',
           url: e.Url,
-          type: e.ContentType
+          type: e.ContentType,
         };
       });
       this.addFilesToExplorer(newResults);
       this.updateFileQuery();
-      });
+    });
   }
 
   addFilesToExplorer(value) {
@@ -63,34 +66,33 @@ export class AppComponent implements OnInit {
     });
   }
 
-  getValuesPerClick (Azurelink) {
-
+  getValuesPerClick(Azurelink) {
     const cloudUrl = Azurelink.url;
     const fileType = Azurelink.type;
 
-      if (fileType === 'application/zip') {
-        this.clickerService.getBlobZip(cloudUrl).subscribe(blobResponse => {
-          const jszip = new JSZip();
-          return jszip.loadAsync(blobResponse).then((zip) => {
-            const extractedfile = Object.keys(zip.files);
-            jszip.file(extractedfile).async('string').then(unzipText => {
-                this.wordCountSender(unzipText);
-                this.frequencyCountSender(unzipText);
+    if (fileType === 'application/zip') {
+      this.clickerService.getBlobZip(cloudUrl).subscribe(blobResponse => {
+        const jszip = new JSZip();
+        return jszip.loadAsync(blobResponse).then(zip => {
+          const extractedfile = [Object.keys(zip.files)[0]];
+          jszip
+            .file(extractedfile)
+            .async('string')
+            .then(unzipText => {
+              this.wordCountSender(unzipText);
+              this.frequencyCountSender(unzipText);
             });
         });
       });
-
-      } else {
-        this.clickerService.getBlobText(cloudUrl).subscribe(textResponse => {
-          this.wordCountSender(textResponse);
-          this.frequencyCountSender(textResponse);
-
+    } else {
+      this.clickerService.getBlobText(cloudUrl).subscribe(textResponse => {
+        this.wordCountSender(textResponse);
+        this.frequencyCountSender(textResponse);
       });
-
-      }
+    }
   }
 
-  frequencyCountSender (value) {
+  frequencyCountSender(value) {
     this.decodedText = value;
     const arrayOfWords = this.decodedText.split(' ');
 
@@ -98,22 +100,24 @@ export class AppComponent implements OnInit {
       const reduceOriginal = original.reduce((countsMap, item) => {
         countsMap[item] = (countsMap[item] || 0) + 1;
         return countsMap;
-      }
-      , {} );
+      }, {});
       return reduceOriginal;
-  }
+    }
 
     const results = compressArray(arrayOfWords);
 
     // console.log('all', results);
 
     const lessthan5 = Object.entries(results).filter(([key, val]) => {
-        return val >= 5;
+      return val >= 5;
     });
 
-    const keysAndVals = lessthan5.reduce(([keys, values], [key, val]) => {
+    const keysAndVals = lessthan5.reduce(
+      ([keys, values], [key, val]) => {
         return [[...keys, key], [...values, val]];
-    }, [[], []]);
+      },
+      [[], []],
+    );
 
     const words = keysAndVals[0];
     const freqs = keysAndVals[1];
@@ -123,12 +127,9 @@ export class AppComponent implements OnInit {
 
     this.clickerService.frequencySender(keysAndVals);
     // this.clickerService.frequencySender(freqs);
-
-
   }
 
-  wordCountSender (value) {
-
+  wordCountSender(value) {
     this.decodedText = value;
     this.wordCount = this.decodedText.split(' ').length;
     const arrayOfWords = this.decodedText.split(' ');
@@ -137,7 +138,11 @@ export class AppComponent implements OnInit {
   }
 
   addFolder(folder: { name: string }) {
-    this.fileService.add({ isFolder: true, Name: folder.name, parent: this.currentRoot ? this.currentRoot.id : 'root' });
+    this.fileService.add({
+      isFolder: true,
+      Name: folder.name,
+      parent: this.currentRoot ? this.currentRoot.id : 'root',
+    });
     this.updateFileQuery();
   }
 
@@ -190,8 +195,8 @@ export class AppComponent implements OnInit {
   }
 
   updateFileQuery() {
-    this.fileElements = this.fileService.queryInFolder(this.currentRoot ? this.currentRoot.id : 'root');
+    this.fileElements = this.fileService.queryInFolder(
+      this.currentRoot ? this.currentRoot.id : 'root',
+    );
   }
-
-
 }
