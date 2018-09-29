@@ -96,17 +96,7 @@ export class AppComponent implements OnInit {
     this.decodedText = value;
     const arrayOfWords = this.decodedText.split(' ');
 
-    function compressArray(original) {
-      const reduceOriginal = original.reduce((countsMap, item) => {
-        countsMap[item] = (countsMap[item] || 0) + 1;
-        return countsMap;
-      }, {});
-      return reduceOriginal;
-    }
-
-    const results = compressArray(arrayOfWords);
-
-    // console.log('all', results);
+    const results = this.compressArray(arrayOfWords);
 
     const lessthan5 = Object.entries(results).filter(([key, val]) => {
       return val >= 5;
@@ -118,15 +108,17 @@ export class AppComponent implements OnInit {
       },
       [[], []],
     );
-
-    const words = keysAndVals[0];
-    const freqs = keysAndVals[1];
-
-    console.log(words);
-    console.log(freqs);
-
+    // const words = keysAndVals[0];
+    // const freqs = keysAndVals[1];
     this.clickerService.frequencySender(keysAndVals);
-    // this.clickerService.frequencySender(freqs);
+  }
+
+  compressArray(originalArray) {
+    const reduceOriginal = originalArray.reduce((countsMap, item) => {
+      countsMap[item] = (countsMap[item] || 0) + 1;
+      return countsMap;
+    }, {});
+    return reduceOriginal;
   }
 
   wordCountSender(value) {
