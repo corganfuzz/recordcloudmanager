@@ -40,23 +40,33 @@ export class AppComponent implements OnInit {
   }
 
   getAzureFiles() {
-    this.readerService.getTextFile().subscribe((data: string) => {
-      const parser = new DOMParser();
-      const xml = parser.parseFromString(data, 'text/xml');
-      const obj = this.ngxXml2jsonService.xmlToJson(xml);
-      const results = obj['EnumerationResults'].Blobs.Blob;
-      const newResults = results.map(e => {
-        return {
-          Name: e.Name,
-          folder: false,
-          parent: 'root',
-          url: e.Url,
-          type: e.ContentType,
-        };
-      });
-      this.addFilesToExplorer(newResults);
+    this.readerService.getTextFile().subscribe((response: string) => {
+      const untouchedXml = this.convertXmltoJson(response);
+      const dataTransformed = this.destructuringJson(untouchedXml);
+      this.addFilesToExplorer(dataTransformed);
       this.updateFileQuery();
     });
+  }
+
+  convertXmltoJson(xmlValue) {
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(xmlValue, 'text/xml');
+    const obj = this.ngxXml2jsonService.xmlToJson(xml);
+    return obj;
+  }
+
+  destructuringJson(value) {
+    const results = value['EnumerationResults'].Blobs.Blob;
+    const newResults = results.map(e => {
+      return {
+        Name: e.Name,
+        folder: false,
+        parent: 'root',
+        url: e.Url,
+        type: e.ContentType,
+      };
+    });
+    return newResults;
   }
 
   addFilesToExplorer(value) {
@@ -72,17 +82,7 @@ export class AppComponent implements OnInit {
 
     if (fileType === 'application/zip') {
       this.clickerService.getBlobZip(cloudUrl).subscribe(blobResponse => {
-        const jszip = new JSZip();
-        return jszip.loadAsync(blobResponse).then(zip => {
-          const extractedfile = [Object.keys(zip.files)[0]];
-          jszip
-            .file(extractedfile)
-            .async('string')
-            .then(unzipText => {
-              this.wordCountSender(unzipText);
-              this.frequencyCountSender(unzipText);
-            });
-        });
+        this.unzipBlobFile(blobResponse);
       });
     } else {
       this.clickerService.getBlobText(cloudUrl).subscribe(textResponse => {
@@ -92,12 +92,24 @@ export class AppComponent implements OnInit {
     }
   }
 
+  unzipBlobFile(response) {
+    const jszip = new JSZip();
+    return jszip.loadAsync(response).then(zip => {
+      const extractedfile = [Object.keys(zip.files)[0]];
+      jszip
+        .file(extractedfile)
+        .async('string')
+        .then(unzipText => {
+          this.wordCountSender(unzipText);
+          this.frequencyCountSender(unzipText);
+        });
+    });
+  }
+
   frequencyCountSender(value) {
     this.decodedText = value;
     const arrayOfWords = this.decodedText.split(' ');
-
     const results = this.compressArray(arrayOfWords);
-
     const lessthan5 = Object.entries(results).filter(([key, val]) => {
       return val >= 5;
     });
