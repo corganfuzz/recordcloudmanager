@@ -9,8 +9,13 @@
 
 
     <mat-grid-list cols="8" rowHeight="100px" fxFlex>
+
       <mat-grid-tile *ngFor="let element of fileElements" class=file-or-folder>
-        <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: element}" #menuTrigger="matMenuTrigger"></span>
+
+        <span [matMenuTriggerFor]="rootMenu"
+              [matMenuTriggerData]="{element: element}"
+              #menuTrigger="matMenuTrigger">
+        </span>
 
         <div (click)="navigate(element)" (contextmenu)="openMenu($event, menuTrigger)">
 
@@ -21,9 +26,11 @@
           *ngIf="!element.isFolder">insert_drive_file</mat-icon>
 
           <span class="row">{{element.Name}}</span>
+
         </div>
 
       </mat-grid-tile>
+
     </mat-grid-list>
 
 

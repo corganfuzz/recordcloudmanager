@@ -3,6 +3,7 @@
       <app-header></app-header>
   </div>
 </div>
+<app-histogramer></app-histogramer>
 <div class="row">
     <div class="col-xs-12">
         <app-fileexplorer
@@ -16,13 +17,15 @@
         (elementMoved)="moveElement($event)">
         </app-fileexplorer>
     </div>
+
 </div>
+
 <br/>
 <div class="row">
     <div class="col-xs-6">
         <app-textvisualizer [decodedText]='decodedText'></app-textvisualizer>
     </div>
     <div class="col-xs-6">
-        <app-histogramer></app-histogramer>
+        <app-wordfrequency></app-wordfrequency>
     </div>
 </div>

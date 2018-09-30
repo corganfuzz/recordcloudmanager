@@ -1,14 +1,21 @@
-<mat-toolbar>
-  <span>Histogram</span>
-  <span class="spacer"></span>
-</mat-toolbar>
+<mat-accordion>
+  <mat-expansion-panel>
 
-<mat-card class="cardie">
-  <app-wordfrequency></app-wordfrequency>
-  <br/>
-  <div class="chart">
-    <canvas id="histogramChart"></canvas>
-  </div>
-</mat-card>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Path
+      </mat-panel-title>
+      <mat-panel-description>
+        Quick Search? click here
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+
+    <mat-form-field>
+      <input matInput placeholder="Type file name">
+    </mat-form-field>
+
+  </mat-expansion-panel>
+</mat-accordion>
 
 
