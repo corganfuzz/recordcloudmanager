@@ -28,6 +28,7 @@ export class AppComponent implements OnInit {
   azureFiles: any;
   decodedText: any;
   wordCount: any;
+  dataforInput: any[];
 
   ngOnInit() {
     this.getAzureFiles();
@@ -43,6 +44,7 @@ export class AppComponent implements OnInit {
     this.readerService.getTextFile().subscribe((response: string) => {
       const untouchedXml = this.convertXmltoJson(response);
       const dataTransformed = this.destructuringJson(untouchedXml);
+      this.dataforInput = dataTransformed;
       this.addFilesToExplorer(dataTransformed);
       this.updateFileQuery();
     });
