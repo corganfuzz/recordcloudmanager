@@ -61,7 +61,7 @@ export class AppComponent implements OnInit {
             type: e.ContentType,
           };
         });
-        console.log(newResults);
+        // console.log(newResults);
         this.addFilesToExplorer(newResults);
       } else {
         const { ContentType, Name, Url } = results;
