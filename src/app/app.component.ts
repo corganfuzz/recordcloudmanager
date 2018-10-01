@@ -4,8 +4,10 @@ import { Observable } from 'rxjs';
 import { FileService } from './services/file/file.service';
 import { ReaderService } from './services/reader/reader.service';
 import { ClickerService } from './services/clicker/clicker.service';
+import { PrefixerService } from './services/prefixer/prefixer.service';
 import { NgxXml2jsonService } from 'ngx-xml2json';
 import * as JSZip from 'jszip';
+
 
 @Component({
   selector: 'app-root',
@@ -20,6 +22,7 @@ export class AppComponent implements OnInit {
     private readerService: ReaderService,
     private ngxXml2jsonService: NgxXml2jsonService,
     private clickerService: ClickerService,
+    private prefixerService: PrefixerService,
   ) {}
 
   currentRoot: FileElement;
@@ -29,6 +32,7 @@ export class AppComponent implements OnInit {
   decodedText: any;
   wordCount: any;
   dataforInput: any[];
+  values = '';
 
   ngOnInit() {
     this.getAzureFiles();
@@ -40,14 +44,44 @@ export class AppComponent implements OnInit {
     this.updateFileQuery();
   }
 
-  getAzureFiles() {
-    this.readerService.getTextFile().subscribe((response: string) => {
-      const untouchedXml = this.convertXmltoJson(response);
-      const dataTransformed = this.destructuringJson(untouchedXml);
-      this.dataforInput = dataTransformed;
-      this.addFilesToExplorer(dataTransformed);
-      this.updateFileQuery();
+  searchAzure (event: any) {
+    this.values = event.target.value;
+    this.prefixerService.getDataPrefix(this.values).subscribe(data => {
+      const untouchedXml = this.convertXmltoJson(data);
+      // const dataTransformed = this.destructuringJson(untouchedXml);
+      const results = untouchedXml['EnumerationResults'].Blobs.Blob;
+
+      if (Array.isArray(results) === true) {
+        const newResults = results.map(e => {
+          return {
+            Name: e.Name,
+            folder: false,
+            parent: 'root',
+            url: e.Url,
+            type: e.ContentType,
+          };
+        });
+        console.log(newResults);
+        this.addFilesToExplorer(newResults);
+      } else {
+        const { ContentType, Name, Url } = results;
+        const newResults = { ContentType, Name, Url, folder: false, parent: 'root' };
+        console.log(newResults);
+        this.addFilesToExplorer(newResults);
+      }
     });
+
+  }
+
+  getAzureFiles() {
+    // this.readerService.getTextFile().subscribe((response: string) => {
+    //   const untouchedXml = this.convertXmltoJson(response);
+    //   const dataTransformed = this.destructuringJson(untouchedXml);
+    //   this.dataforInput = dataTransformed;
+    //   this.addFilesToExplorer(dataTransformed);
+    //   this.updateFileQuery();
+    // });
+
   }
 
   convertXmltoJson(xmlValue) {
@@ -76,6 +110,7 @@ export class AppComponent implements OnInit {
     value.forEach(element => {
       this.fileService.add(element);
     });
+    this.updateFileQuery();
   }
 
   getValuesPerClick(Azurelink) {

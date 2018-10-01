@@ -3,7 +3,29 @@
       <app-header></app-header>
   </div>
 </div>
-<app-histogramer [dataforInput]="dataforInput"></app-histogramer>
+
+<!-- <app-histogramer [dataforInput]="dataforInput"></app-histogramer> -->
+<mat-accordion>
+  <mat-expansion-panel>
+
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Path
+      </mat-panel-title>
+      <mat-panel-description>
+        Quick Search? click here
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+
+    <mat-form-field appearance="outline">
+      <input (keyup)="searchAzure($event)" matInput placeholder="Start typing">
+    </mat-form-field>
+
+  </mat-expansion-panel>
+</mat-accordion>
+<!-- <app-histogramer [dataforInput]="dataforInput"></app-histogramer> -->
+
 <div class="row">
     <div class="col-xs-12">
         <app-fileexplorer
