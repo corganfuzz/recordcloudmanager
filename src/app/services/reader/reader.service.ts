@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class ReaderService {
-
-  private azureURL = 'https://codingmaana.blob.core.windows.net/files/?comp=list';
+  private azureURL =
+    'https://codingmaana.blob.core.windows.net/files/?comp=list';
 
   constructor(private http: HttpClient) {}
 

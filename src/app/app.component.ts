@@ -54,6 +54,7 @@ export class AppComponent implements OnInit {
           type: e.ContentType,
         };
       });
+
       this.addFilesToExplorer(newResults);
       this.updateFileQuery();
     });
@@ -69,8 +70,8 @@ export class AppComponent implements OnInit {
   getValuesPerClick(Azurelink) {
     const cloudUrl = Azurelink.url;
     const fileType = Azurelink.type;
-
-    if (fileType === 'application/zip') {
+    console.log(fileType);
+    if (fileType === 'application/zip' || 'application/x-zip-compressed') {
       this.clickerService.getBlobZip(cloudUrl).subscribe(blobResponse => {
         const jszip = new JSZip();
         return jszip.loadAsync(blobResponse).then(zip => {
