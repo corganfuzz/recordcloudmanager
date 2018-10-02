@@ -3,7 +3,9 @@
     <app-header></app-header>
   </div>
 </div>
+<app-histogramer [dataforInput]="dataforInput"></app-histogramer>
 <div class="row">
+<<<<<<< HEAD
   <div class="col-xs-12">
     <app-fileexplorer [fileElements]="fileElements | async" [path]="currentPath" [canNavigateUp]="canNavigateUp"
       (folderAdded)="addFolder($event)" (elementRemoved)="removeElement($event)" (navigatedDown)="navigateToFolder($event)"
@@ -19,4 +21,29 @@
   <div class="col-xs-6">
     <app-histogramer></app-histogramer>
   </div>
+=======
+    <div class="col-xs-12">
+        <app-fileexplorer
+        [fileElements]="fileElements | async" [path]="currentPath"
+        [canNavigateUp]="canNavigateUp"
+        (folderAdded)="addFolder($event)"
+        (elementRemoved)="removeElement($event)"
+        (navigatedDown)="navigateToFolder($event)"
+        (navigatedUp)="navigateUp()"
+        (elementRenamed)="renameElement($event)"
+        (elementMoved)="moveElement($event)">
+        </app-fileexplorer>
+    </div>
+
+</div>
+
+<br/>
+<div class="row">
+    <div class="col-xs-6">
+        <app-textvisualizer [decodedText]='decodedText'></app-textvisualizer>
+    </div>
+    <div class="col-xs-6">
+        <app-wordfrequency></app-wordfrequency>
+    </div>
+>>>>>>> 8f25290c7f129d68b8522e2e3c7eb4b9342b16b4
 </div>

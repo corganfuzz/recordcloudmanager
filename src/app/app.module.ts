@@ -19,6 +19,7 @@ import { MatToolbarModule,
          MatMenuModule,
          MatDialogModule,
          MatInputModule,
+         MatExpansionModule,
          MatButtonModule } from '@angular/material';
 
 import { FileexplorerComponent } from './fileexplorer/fileexplorer.component';
@@ -51,6 +52,7 @@ import { WordfrequencyComponent } from './wordfrequency/wordfrequency.component'
     MatButtonModule,
     MatGridListModule,
     FormsModule,
+    MatExpansionModule,
     HttpClientModule,
   ],
   providers: [
