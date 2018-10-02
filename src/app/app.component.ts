@@ -81,8 +81,8 @@ export class AppComponent implements OnInit {
   getValuesPerClick(Azurelink) {
     const cloudUrl = Azurelink.url;
     const fileType = Azurelink.type;
-    console.log(fileType);
-    if (fileType === 'application/zip' || 'application/x-zip-compressed') {
+
+    if (fileType === 'application/zip') {
       this.clickerService.getBlobZip(cloudUrl).subscribe(blobResponse => {
         this.unzipBlobFile(blobResponse);
       });
