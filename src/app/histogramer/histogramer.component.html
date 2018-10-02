@@ -6,20 +6,15 @@
         Path
       </mat-panel-title>
       <mat-panel-description>
-        Quick Search? click here
       </mat-panel-description>
     </mat-expansion-panel-header>
 
 
-<mat-form-field appearance="outline">
-      <input (keyup)="searchAzure($event)"
-             matInput
-             placeholder="Start typing">
-</mat-form-field>
+    <mat-form-field appearance="outline">
+      <input (keyup)="searchAzure($event)" matInput placeholder="Start typing">
+    </mat-form-field>
 
     {{values}}
 
   </mat-expansion-panel>
 </mat-accordion>
-
-
