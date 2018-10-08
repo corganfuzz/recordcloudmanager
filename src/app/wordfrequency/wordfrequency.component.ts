@@ -63,7 +63,10 @@ export class WordfrequencyComponent implements AfterViewInit, OnDestroy {
           scales: {
             xAxes: [{
               ticks: {
-                fontColor: '#FFF'
+                fontColor: '#FFF',
+                autoSkip: false,
+                maxRotation: 90,
+                minRotation: 90,
               },
             scaleLabel: {
               display: true,
@@ -90,6 +93,7 @@ export class WordfrequencyComponent implements AfterViewInit, OnDestroy {
             }],
         },
           responsive: true,
+          showXLabels : 20,
         }
       });
     });
