@@ -110,8 +110,13 @@ export class AppComponent implements OnInit {
 
   frequencyCountSender(value) {
     this.decodedText = value;
-    const arrayOfWords = this.decodedText.split(' ');
-    const results = this.compressArray(arrayOfWords);
+    const arrayOfWords = this.decodedText.split(/\W+/);
+    // console.log(arrayOfWords);
+    const noNumbers = arrayOfWords.filter(item => {
+      return isNaN(item);
+    });
+    console.log(noNumbers);
+    const results = this.compressArray(noNumbers);
     const lessthan5 = Object.entries(results).filter(([key, val]) => {
       return val >= 5;
     });
@@ -138,7 +143,7 @@ export class AppComponent implements OnInit {
   wordCountSender(value) {
     this.decodedText = value;
     this.wordCount = this.decodedText.split(' ').length;
-    const arrayOfWords = this.decodedText.split(' ');
+    // const arrayOfWords = this.decodedText.split(' ');
 
     this.clickerService.clickerSender(this.wordCount);
   }
