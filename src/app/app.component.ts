@@ -111,11 +111,9 @@ export class AppComponent implements OnInit {
   frequencyCountSender(value) {
     this.decodedText = value;
     const arrayOfWords = this.decodedText.split(/\W+/);
-    // console.log(arrayOfWords);
     const noNumbers = arrayOfWords.filter(item => {
       return isNaN(item);
     });
-    console.log(noNumbers);
     const results = this.compressArray(noNumbers);
     const lessthan5 = Object.entries(results).filter(([key, val]) => {
       return val >= 5;
